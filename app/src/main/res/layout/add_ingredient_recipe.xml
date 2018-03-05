@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingrediente"
+        android:textSize="18sp" />
+
+
+    <Spinner
+        android:id="@+id/spinnerIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingrediente"/>
+
+    <EditText
+        android:id="@+id/editTextValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="Quantidade" />
+
+    <Button
+        android:id="@+id/buttonSave2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="saveIngredientRecipe"
+        android:text="salvar" />
+
+</LinearLayout>

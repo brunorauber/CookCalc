@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Nome" />
+
+    <EditText
+        android:id="@+id/editTextValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="Valor" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unidade/Embalagem"
+        android:textSize="18sp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupUnity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonKg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kilograma (kg)" />
+
+        <RadioButton
+            android:id="@+id/radioButtonG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Grama (g)" />
+
+        <RadioButton
+            android:id="@+id/radioButtonL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Litro (l)" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mililitro (ml)" />
+
+        <RadioButton
+            android:id="@+id/radioButtonUn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unidade" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editTextQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Quantidade por embalagem" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="salvar"
+        android:onClick="saveIngredient"/>
+
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="returnToMain"
+        android:text="Voltar" />
+
+</LinearLayout>

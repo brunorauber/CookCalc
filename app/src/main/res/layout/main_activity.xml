@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/buttonAddIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Ingrediente"
+        android:onClick="viewAddIngredient"/>
+
+    <Button
+        android:id="@+id/buttonListIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Ingredientes"
+        android:onClick="viewListIngredient"/>
+
+    <Button
+        android:id="@+id/buttonAddRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adicionar Receita"
+        android:onClick="viewAddRecipe"/>
+
+    <Button
+        android:id="@+id/buttonListRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Receitas"
+        android:onClick="viewListRecipes"/>
+</LinearLayout>
