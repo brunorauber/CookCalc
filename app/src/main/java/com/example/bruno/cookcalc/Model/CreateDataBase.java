@@ -21,18 +21,24 @@ public class CreateDataBase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE ingredient(" +
-                "id_ingredient INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT, " +
-                "value REAL, " +
-                "unity TEXT, " +
-                "quantity REAL" +
-                ")";
+                "\n id_ingredient INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "\n name TEXT, " +
+                "\n brand TEXT, " +
+                "\n latest_value REAL, " +
+                "\n unity TEXT, " +
+                "\n last_update DATE, " +
+                "\n quantity REAL" +
+                "\n )";
         db.execSQL(sql);
 
         sql = "CREATE TABLE recipe(" +
-                "id_recipe INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT, " +
-                "value REAL" +
+                "\n id_recipe INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "\n name TEXT, " +
+                "\n last_update DATE, " +
+                "\n portions INTEGER, " +
+                "\n isBread NUMERIC, " +
+                "\n isFavorite NUMERIC, " +
+                "\n latest_value REAL" +
                 ")";
         db.execSQL(sql);
 
@@ -41,9 +47,28 @@ public class CreateDataBase extends SQLiteOpenHelper {
                 "\n id_recipe INTEGER," +
                 "\n value REAL, " +
                 "\n quantity REAL, " +
+                "\n breadBase NUMERIC, " +
+                "\n creation_date DATE, " +
                 "\n PRIMARY KEY (id_ingredient, id_recipe)" +
                 "\n )";
         db.execSQL(sql);
+
+        sql = "CREATE TABLE ingredient_price(" +
+                "\n id_price INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "\n id_ingredient INTEGER, " +
+                "\n creation_date DATE, " +
+                "\n value REAL " +
+                "\n )";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE recipe_price(" +
+                "\n id_price INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "\n id_recipe INTEGER, " +
+                "\n creation_date DATE, " +
+                "\n value REAL " +
+                "\n )";
+        db.execSQL(sql);
+
     }
 
     @Override
@@ -51,6 +76,8 @@ public class CreateDataBase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS ingredient");
         db.execSQL("DROP TABLE IF EXISTS recipe");
         db.execSQL("DROP TABLE IF EXISTS ingredient_recipe");
+        db.execSQL("DROP TABLE IF EXISTS ingredient_price");
+        db.execSQL("DROP TABLE IF EXISTS recipe_price");
         onCreate(db);
 
     }

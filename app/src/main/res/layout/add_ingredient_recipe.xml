@@ -7,16 +7,23 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ingrediente"
+        android:layout_height="46dp"
+        android:text="Nome da Receita"
         android:textSize="18sp" />
 
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingrediente:"
+        android:textSize="18sp" />
 
     <Spinner
         android:id="@+id/spinnerIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingrediente"/>
+        android:hint="Ingrediente" />
 
     <EditText
         android:id="@+id/editTextValue"
@@ -25,6 +32,13 @@
         android:ems="10"
         android:inputType="numberDecimal"
         android:hint="Quantidade" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingrediente base para pão"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/buttonSave2"

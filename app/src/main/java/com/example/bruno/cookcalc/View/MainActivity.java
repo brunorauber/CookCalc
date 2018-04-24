@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         IngredientModel ingredientModel = new IngredientModel(getBaseContext());
         RecipeModel recipeModel = new RecipeModel(getBaseContext());
 

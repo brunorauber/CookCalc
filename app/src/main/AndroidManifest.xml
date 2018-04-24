@@ -35,5 +35,11 @@
         <activity android:name=".View.ListIngredientRecipes" >
         </activity>
 
+        <activity android:name=".View.ListIngredientPrices" >
+        </activity>
+
+        <activity android:name=".View.ListRecipePrices" >
+        </activity>
+
     </application>
 </manifest>

@@ -8,8 +8,7 @@
     <ListView
         android:id="@+id/listViewRecipes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="187dp"></ListView>
 
     <Button
         android:id="@+id/btnReturn"

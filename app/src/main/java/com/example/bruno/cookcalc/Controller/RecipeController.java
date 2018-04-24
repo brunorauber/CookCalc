@@ -6,8 +6,11 @@ import java.util.List;
 public class RecipeController {
     private Integer idRecipe;
     private String name;
+    private Double portions;
     private Double value;
+    private Boolean isBread;
     private List<IngredientController> ingredients;
+    private List<RecipePriceController> prices;
 
     public RecipeController(){
     }
@@ -44,13 +47,38 @@ public class RecipeController {
         this.ingredients = ingredients;
     }
 
+    public Boolean getBread() {
+        return isBread;
+    }
+
+    public void setBread(Boolean bread) {
+        isBread = bread;
+    }
+
+    public Double getPortions() {
+        return portions;
+    }
+
+    public void setPortions(Double portions) {
+        this.portions = portions;
+    }
+
+    public List<RecipePriceController> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<RecipePriceController> prices) {
+        this.prices = prices;
+    }
+
     @Override
     public String toString() {
         return "RecipeController{" +
-                "\nidRecipe=" + idRecipe +
-                ", \nname='" + name + '\'' +
-                ", \nvalue=" + value +
-                ", \ningredients=" + ingredients +
+                "idRecipe=" + idRecipe +
+                ", name='" + name + '\'' +
+                ", portions=" + portions +
+                ", value=" + value +
+                ", isBread=" + isBread +
                 '}';
     }
 }

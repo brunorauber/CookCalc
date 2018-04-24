@@ -9,6 +9,7 @@
         android:id="@+id/floatingActionButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:clickable="true"
         android:onClick="openIngredientsList"
         app:backgroundTint="@android:color/background_light"
@@ -17,7 +18,35 @@
     <ListView
         android:id="@+id/listViewIngredientsRecipe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="186dp"></ListView>
+
+    <Button
+        android:id="@+id/buttonEditRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="editRecipe"
+        android:text="Editar Receita" />
+
+    <Button
+        android:id="@+id/buttonSeeHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openRecipeHistory"
+        android:text="Ver Histórico de Valores" />
+
+    <Button
+        android:id="@+id/buttonMultiplyRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="viewListIngredient"
+        android:text="Multiplicar Receita" />
+
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="returnToMain"
+        android:text="Voltar" />
 
 
 </LinearLayout>

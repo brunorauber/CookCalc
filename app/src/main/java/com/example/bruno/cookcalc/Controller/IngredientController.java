@@ -1,12 +1,16 @@
 package com.example.bruno.cookcalc.Controller;
 
 
+import java.util.Date;
+
 public class IngredientController {
     private Integer idIngredient;
     private String name;
-    private Double value;
+    private String brand;
+    private Double latestValue;
     private String unity;
     private Double quantity;
+    private Date lastUpdate;
 
     public IngredientController(){
     }
@@ -27,12 +31,12 @@ public class IngredientController {
         this.name = name;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getLatestValue() {
+        return latestValue;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setLatestValue(Double latestValue) {
+        this.latestValue = latestValue;
     }
 
     public String getUnity() {
@@ -51,14 +55,32 @@ public class IngredientController {
         this.quantity = quantity;
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     @Override
     public String toString() {
         return "IngredientController{" +
-                "\nidIngredient=" + idIngredient +
-                ", \nname='" + name + '\'' +
-                ", \nvalue=" + value +
-                ", \nunity='" + unity + '\'' +
-                ", \nquantity=" + quantity +
+                "idIngredient=" + idIngredient +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", latestValue=" + latestValue +
+                ", unity='" + unity + '\'' +
+                ", quantity=" + quantity +
+                ", lastUpdate=" + lastUpdate +
                 '}';
     }
 }

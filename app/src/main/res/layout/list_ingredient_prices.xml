@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewIngredientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listViewIngredientPrices"
+        android:layout_width="match_parent"
+        android:layout_height="321dp" />
+
+    <Button
+        android:id="@+id/btnEditIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="editIngredient"
+        android:text="Editar Ingrediente" />
+
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="returnToMain"
+        android:text="Voltar" />
+
+</LinearLayout>

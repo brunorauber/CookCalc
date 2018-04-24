@@ -4,10 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/listViewIngredients"
+    <TextView
+        android:id="@+id/textViewIngredientName"
         android:layout_width="match_parent"
-        android:layout_height="314dp" />
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listViewIngredientPrices"
+        android:layout_width="match_parent"
+        android:layout_height="379dp" />
 
     <Button
         android:id="@+id/btnReturn"

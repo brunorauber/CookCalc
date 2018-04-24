@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.bruno.cookcalc.Controller.RecipeController;
 import com.example.bruno.cookcalc.Model.RecipeModel;
@@ -49,8 +48,6 @@ public class ListRecipes extends Activity {
 
     public void returnToMain(View v){
         finish();
-//        Intent intent = new Intent (this, MainActivity.class);
-//        startActivity(intent);
     }
 
     public void openIngredients(View v, RecipeController recipe){

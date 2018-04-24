@@ -1,8 +1,6 @@
 package com.example.bruno.cookcalc.Controller;
 
 
-import java.util.List;
-
 public class IngredientRecipeController {
     private Integer idIngredient;
     private Integer idRecipe;
@@ -61,17 +59,6 @@ public class IngredientRecipeController {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
-
-    /*@Override
-    public String toString() {
-        return "IngredientRecipeController{" +
-                "\nid_ingredient=" + idIngredient +
-                ", \nid_recipe=" + idRecipe +
-                ", \ningredientName=" + ingredientName+
-                ", \nvalue=" + value +
-                ", \nquantity=" + quantity +
-                '}';
-    }*/
 
     @Override
     public String toString() {
