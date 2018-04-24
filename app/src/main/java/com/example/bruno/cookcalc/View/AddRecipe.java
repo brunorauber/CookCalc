@@ -3,6 +3,7 @@ package com.example.bruno.cookcalc.View;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -86,6 +87,9 @@ public class AddRecipe extends Activity {
         RecipeModel model = new RecipeModel(getBaseContext());
         model.insertRecipe(recipe);
         finish();
+
+        Intent intent = new Intent (this, ListRecipes.class);
+        startActivity(intent);
     }
 
     public void showErrorMessage(){
@@ -125,11 +129,7 @@ public class AddRecipe extends Activity {
 
     }
 
-
-
     public void returnToMain(View v){
         finish();
-//        Intent intent = new Intent (this, MainActivity.class);
-//        startActivity(intent);
     }
 }

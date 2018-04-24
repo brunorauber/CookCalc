@@ -171,8 +171,7 @@ public class AddIngredientRecipes extends Activity {
     }
 
     public void returnToMain(View v){
-        Intent intent = new Intent (this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     public void openIngredientsList(View v){

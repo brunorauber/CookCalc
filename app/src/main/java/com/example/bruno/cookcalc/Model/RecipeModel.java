@@ -79,7 +79,7 @@ public class RecipeModel {
                 "latest_value"
         };
         SQLiteDatabase db = banco.getReadableDatabase();
-        Cursor cursor = db.query("recipe", fields, null, null, null, null, null);
+        Cursor cursor = db.query("recipe", fields, null, null, null, null, "name asc");
 
         List<RecipeController> recipes = new ArrayList<>();
         RecipeController recipe = null;
@@ -107,7 +107,7 @@ public class RecipeModel {
 
         String whereClause = "id_recipe = ?";
         String[] whereArgs = new String[] {idRecipe.toString()};
-        Cursor cursor = db.query("recipe_price", fields, whereClause, whereArgs, null, null, "creation_date DESC");
+        Cursor cursor = db.query("recipe_price", fields, whereClause, whereArgs, null, null, "creation_date ASC");
 //        Cursor cursor = db.query("recipe_price", fields, null, null, null, null, "creation_date DESC");
 
         List<RecipePriceController> recipePrices = new ArrayList<>();
@@ -127,8 +127,6 @@ public class RecipeModel {
                 }catch (ParseException e){
                     e.printStackTrace();
                 }
-
-                System.out.println(recipePrice);
 
                 recipePrices.add(recipePrice);
             } while (cursor.moveToNext());

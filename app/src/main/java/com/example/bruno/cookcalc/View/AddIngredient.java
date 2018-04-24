@@ -3,6 +3,7 @@ package com.example.bruno.cookcalc.View;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -121,7 +122,9 @@ public class AddIngredient extends Activity {
 
         }
         finish();
+
     }
+
     public void insertIngredient(View v){
         IngredientController ingredient = new IngredientController();
 
@@ -176,6 +179,8 @@ public class AddIngredient extends Activity {
         IngredientModel model = new IngredientModel(getBaseContext());
         model.insertIngredient(ingredient);
         finish();
+        Intent intent = new Intent (this, ListIngredients.class);
+        startActivity(intent);
 
     }
 

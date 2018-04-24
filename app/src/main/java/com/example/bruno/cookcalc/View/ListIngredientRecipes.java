@@ -12,6 +12,7 @@ import com.example.bruno.cookcalc.Controller.IngredientRecipeController;
 import com.example.bruno.cookcalc.Model.IngredientRecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +106,18 @@ public class ListIngredientRecipes extends Activity {
                     break;
             }
 
-            String rec = item.getIngredientName() + " - R$" + item.getValue() + " (" +
+            Double value = item.getValue();
+
+            DecimalFormat numberFormat;
+            if(value < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+
+            String valor = "R$ " + numberFormat.format(value);
+
+            String rec = item.getIngredientName() + " - R$" + valor + " (" +
                     item.getQuantity() + " " + unity + ")";
             ingredientRecipesString.add(rec);
         }

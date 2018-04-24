@@ -12,6 +12,7 @@ import com.example.bruno.cookcalc.Controller.IngredientController;
 import com.example.bruno.cookcalc.Model.IngredientModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,17 @@ public class ListIngredients extends Activity {
             }
 
             String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
-            String ing = ingredient.getName() + " " + ingredient.getBrand() + " - R$ " + ingredient.getLatestValue() + " (" +
+
+            Double value = ingredient.getLatestValue();
+            DecimalFormat numberFormat;
+            if(value < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+            String valor = "R$ " + numberFormat.format(value);
+
+            String ing = ingredient.getName() + " " + ingredient.getBrand() + " - " + valor + " (" +
                     qtd + " " + unity + ")";
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
             String dataFormatada = sdf.format(ingredient.getLastUpdate());

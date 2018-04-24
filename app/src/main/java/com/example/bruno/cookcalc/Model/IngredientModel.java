@@ -140,7 +140,8 @@ public class IngredientModel {
         SQLiteDatabase db = banco.getReadableDatabase();
         List<IngredientController> ingredients = new ArrayList<>();
         IngredientController ingredient = null;
-        Cursor cursor = db.query("ingredient", fields, null, null, null, null, null);
+        Cursor cursor = db.query("ingredient", fields,
+                null, null, null, null, "name asc, brand asc");
         if (cursor.moveToFirst()) {
             do {
                 ingredient = new IngredientController();

@@ -16,6 +16,7 @@ import com.example.bruno.cookcalc.Model.IngredientPriceModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,13 +39,6 @@ public class ListIngredientPrices extends Activity {
         Bundle b = getIntent().getExtras();
         ingredientId = b.getInt("ingredientId");
 
-        RecipeModel recipeModel = new RecipeModel(getBaseContext());
-        List<RecipeController> recipes = recipeModel.getRecipeByIngredient(ingredientId);
-
-        for(RecipeController recipe : recipes){
-            System.out.println("WERTYUI");
-            System.out.println(recipe);
-        }
 
         ingredient = new IngredientModel(getBaseContext()).selectIngredient(ingredientId);
         ingredientPrices =  new IngredientPriceModel(getBaseContext()).listIngredientsPrices(ingredientId);
@@ -53,24 +47,19 @@ public class ListIngredientPrices extends Activity {
         header.setText("Histórico de Preços: " + ingredient.getName() + " " + ingredient.getBrand());
 
         list = (ListView) findViewById(R.id.listViewIngredientPrices);
-        List<String> ingredientsString = new ArrayList<>();
-        List<String> ingredientsUpdate = new ArrayList<>();
 
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-        Map<String, String> datum = new HashMap<String, String>();
+        //Map<String, String> datum = new HashMap<String, String>();
 
         for (IngredientPriceController price : ingredientPrices){
             String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
             String valor = "R$ " + price.getValue();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
-            String dataFormatada = sdf.format(ingredient.getLastUpdate());
+            String dataFormatada = sdf.format(price.getCreationDate());
 
-            ingredientsString.add(valor);
-            ingredientsUpdate.add(dataFormatada);
-
-            datum = new HashMap<String, String>();
+            Map<String, String> datum = new HashMap<String, String>();
             datum.put( "line1", valor);
-            datum.put( "line2", dataFormatada );
+            datum.put( "line2", dataFormatada + " :: " + price.getIdPrice() );
             data.add( datum );
         }
 
@@ -87,20 +76,25 @@ public class ListIngredientPrices extends Activity {
 
         ingredientPrices =  new IngredientPriceModel(getBaseContext()).listIngredientsPrices(ingredientId);
         list = (ListView) findViewById(R.id.listViewIngredientPrices);
-        List<String> ingredientsString = new ArrayList<>();
-        List<String> ingredientsUpdate = new ArrayList<>();
 
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         Map<String, String> datum = new HashMap<String, String>();
 
         for (IngredientPriceController price : ingredientPrices){
             String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
-            String valor = "R$ " + price.getValue();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
-            String dataFormatada = sdf.format(ingredient.getLastUpdate());
+            //String valor = "R$ " + price.getValue();
 
-            ingredientsString.add(valor);
-            ingredientsUpdate.add(dataFormatada);
+            DecimalFormat numberFormat;
+            if(price.getValue() < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+
+            String valor = "R$ " + numberFormat.format(price.getValue());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
+            String dataFormatada = sdf.format(price.getCreationDate());
 
             datum = new HashMap<String, String>();
             datum.put( "line1", valor);

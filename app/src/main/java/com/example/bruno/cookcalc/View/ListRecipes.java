@@ -12,6 +12,7 @@ import com.example.bruno.cookcalc.Controller.RecipeController;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,17 @@ public class ListRecipes extends Activity {
         List<String> recipesString = new ArrayList<>();
 
         for (RecipeController recipe : recipes){
-            String rec = recipe.getName() + " - R$" + recipe.getValue();
+
+            Double value = recipe.getValue();
+            DecimalFormat numberFormat;
+            if(value < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+            String valor = "R$ " + numberFormat.format(value);
+
+            String rec = recipe.getName() + " - " + valor;
             recipesString.add(rec);
         }
 

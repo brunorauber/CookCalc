@@ -46,7 +46,7 @@ public class IngredientPriceModel {
         Cursor cursor = db.rawQuery("SELECT *" +
                 " FROM ingredient_price  " +
                 " WHERE id_ingredient = ? "+
-                " ORDER BY creation_date DESC", whereArgs);
+                " ORDER BY creation_date ASC", whereArgs);
 
 
         List<IngredientPriceController> ingredientPrices = new ArrayList<>();

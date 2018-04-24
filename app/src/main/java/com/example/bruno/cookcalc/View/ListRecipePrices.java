@@ -16,6 +16,7 @@ import com.example.bruno.cookcalc.Model.IngredientPriceModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,12 +49,24 @@ public class ListRecipePrices extends Activity {
 
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         Map<String, String> datum = new HashMap<String, String>();
+        String dataFormatada = "";
 
         for (RecipePriceController price : recipePrices){
             //String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
-            String valor = "R$ " + price.getValue();
+            Double value = price.getValue();
+            DecimalFormat numberFormat;
+            if(value < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+            String valor = "R$ " + numberFormat.format(value);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
-            String dataFormatada = sdf.format(price.getCreationDate());
+            if (dataFormatada.equals(sdf.format(price.getCreationDate()))){
+                continue;
+            }
+
+            dataFormatada = sdf.format(price.getCreationDate());
 
             prices.add(valor);
             dates.add(dataFormatada);
