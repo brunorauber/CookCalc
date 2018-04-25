@@ -2,6 +2,7 @@ package com.example.bruno.cookcalc.View;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -15,6 +16,10 @@ import com.example.bruno.cookcalc.Model.IngredientModel;
 import com.example.bruno.cookcalc.Model.IngredientPriceModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +55,7 @@ public class ListRecipePrices extends Activity {
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         Map<String, String> datum = new HashMap<String, String>();
         String dataFormatada = "";
+        List<Float> valores = new ArrayList<>();
 
         for (RecipePriceController price : recipePrices){
             //String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
@@ -61,11 +67,11 @@ public class ListRecipePrices extends Activity {
                 numberFormat = new DecimalFormat("#.00");
             }
             String valor = "R$ " + numberFormat.format(value);
+            valores.add(value.floatValue());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
             if (dataFormatada.equals(sdf.format(price.getCreationDate()))){
                 continue;
             }
-
             dataFormatada = sdf.format(price.getCreationDate());
 
             prices.add(valor);
@@ -76,6 +82,27 @@ public class ListRecipePrices extends Activity {
             datum.put( "line2", dataFormatada );
             data.add( datum );
         }
+        /*
+        LineChart chart = (LineChart) findViewById(R.id.chart);
+        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> chartEntries = new ArrayList<Entry>();
+
+        //construção da lista para o gráfico
+
+        Float y = 1.0F;
+        for(int i = data.size() -1; i >= 0; i--){
+            Float valorFormatado = valores.get(i);
+            entries.add(new Entry(y++, valorFormatado));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        dataSet.setColor(Color.BLACK);
+        dataSet.setValueTextColor(Color.BLACK);
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
+        */
 
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_2,

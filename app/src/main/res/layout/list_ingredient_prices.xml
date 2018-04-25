@@ -30,4 +30,9 @@
         android:onClick="returnToMain"
         android:text="Voltar" />
 
+    <!--<com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
+
 </LinearLayout>

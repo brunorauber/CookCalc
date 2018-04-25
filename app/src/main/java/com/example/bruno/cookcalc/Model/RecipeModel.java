@@ -107,7 +107,7 @@ public class RecipeModel {
 
         String whereClause = "id_recipe = ?";
         String[] whereArgs = new String[] {idRecipe.toString()};
-        Cursor cursor = db.query("recipe_price", fields, whereClause, whereArgs, null, null, "creation_date ASC");
+        Cursor cursor = db.query("recipe_price", fields, whereClause, whereArgs, null, null, "date(creation_date)");
 //        Cursor cursor = db.query("recipe_price", fields, null, null, null, null, "creation_date DESC");
 
         List<RecipePriceController> recipePrices = new ArrayList<>();
@@ -124,6 +124,9 @@ public class RecipeModel {
                 try{
                     Date data =  df.parse(target);
                     recipePrice.setCreationDate(data);
+
+                    System.out.println("QWERQERYQERYQERY");
+                    System.out.println("recipePrice :: " + recipePrice);
                 }catch (ParseException e){
                     e.printStackTrace();
                 }
@@ -132,7 +135,13 @@ public class RecipeModel {
             } while (cursor.moveToNext());
         }
         db.close();
-        return recipePrices;
+
+        List<RecipePriceController> recipePricesRet = new ArrayList<>();
+        for(int i = recipePrices.size() -1; i >= 0; i--){
+            recipePricesRet.add(recipePrices.get(i));
+        }
+
+        return recipePricesRet;
     }
 
     public void updateRecipeValue(Integer id) {

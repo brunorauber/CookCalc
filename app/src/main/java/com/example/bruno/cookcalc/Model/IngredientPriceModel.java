@@ -46,7 +46,7 @@ public class IngredientPriceModel {
         Cursor cursor = db.rawQuery("SELECT *" +
                 " FROM ingredient_price  " +
                 " WHERE id_ingredient = ? "+
-                " ORDER BY creation_date ASC", whereArgs);
+                " ORDER BY date(creation_date) DESC", whereArgs);
 
 
         List<IngredientPriceController> ingredientPrices = new ArrayList<>();
@@ -70,8 +70,12 @@ public class IngredientPriceModel {
                 ingredientPrices.add(ingredientPrice);
             } while (cursor.moveToNext());
         }
-
         db.close();
-        return ingredientPrices;
+
+        List<IngredientPriceController> ingredientPricesRet = new ArrayList<>();
+        for(int i = ingredientPrices.size() -1; i >= 0; i--){
+            ingredientPricesRet.add(ingredientPrices.get(i));
+        }
+        return ingredientPricesRet;
     }
 }
