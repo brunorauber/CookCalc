@@ -108,7 +108,73 @@ public class ListIngredients extends Activity {
     @Override
     public void onResume() {
 
+        list = (ListView) findViewById(R.id.listViewIngredients);
+        IngredientModel crud = new IngredientModel(getBaseContext());
+        ingredients = crud.listIngredients();
+        List<String> ingredientsString = new ArrayList<>();
+        List<String> ingredientsUpdate = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        Map<String, String> datum = new HashMap<String, String>();
 
+        for (IngredientController ingredient : ingredients){
+            String unity = ingredient.getUnity();
+            switch (unity) {
+                case "Kilograma":
+                    unity = "kg";
+                    break;
+                case "Grama":
+                    unity = "g";
+                    break;
+                case "Litro":
+                    unity = "l";
+                    break;
+                case "Mililitro":
+                    unity = "ml";
+                    break;
+                case "Unidade":
+                    unity = "un";
+                    break;
+            }
+
+            String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
+
+            Double value = ingredient.getLatestValue();
+            DecimalFormat numberFormat;
+            if(value < 1){
+                numberFormat = new DecimalFormat("0.00");
+            } else {
+                numberFormat = new DecimalFormat("#.00");
+            }
+            String valor = "R$ " + numberFormat.format(value);
+
+            String ing = ingredient.getName() + " " + ingredient.getBrand() + " - " + valor + " (" +
+                    qtd + " " + unity + ")";
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", new Locale("pt_BR"));
+            String dataFormatada = sdf.format(ingredient.getLastUpdate());
+            String lastUpdate = "Última edição em: " + dataFormatada;
+
+            ingredientsString.add(ing);
+            ingredientsUpdate.add(ingredient.getLastUpdate().toString());
+
+            datum = new HashMap<String, String>();
+            datum.put( "line1", ing);
+            datum.put( "line2", lastUpdate );
+            data.add( datum );
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"line1", "line2" },
+                new int[] {android.R.id.text1, android.R.id.text2 });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openIngredientDetails(view, ingredients.get(position) );
+            }
+        });
+
+        list.setAdapter(adapter);
 
         super.onResume();
     }
