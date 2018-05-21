@@ -3,13 +3,19 @@ package com.example.bruno.cookcalc.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.bruno.cookcalc.Controller.IngredientController;
+import com.example.bruno.cookcalc.Controller.RecipeController;
 import com.example.bruno.cookcalc.Model.IngredientModel;
+import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
 import java.text.DecimalFormat;
@@ -97,11 +103,41 @@ public class ListIngredients extends Activity {
         });
 
         list.setAdapter(adapter);
+
+        list.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu contextMenu, View view,
+                                            ContextMenu.ContextMenuInfo contextMenuInfo) {
+                contextMenu.add(Menu.NONE, 1, Menu.NONE, "Remover");
+            }
+        });
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        Integer position = menuInfo.position;
+        IngredientController ingredientController = ingredients.get(position);
+        IngredientModel ingModel =  new IngredientModel(getBaseContext());
+
+        switch (item.getItemId()) {
+            case 1:
+                if(!ingModel.isIngredientOnRecipe(ingredientController.getIdIngredient())){
+                    ingModel.removeIngredient(ingredientController.getIdIngredient());
+                    Toast.makeText(getBaseContext(), "Item Removido", Toast.LENGTH_SHORT).show();
+                    onResume();
+                } else{
+                    Toast.makeText(getBaseContext(), "Item não pode ser removido! Há receitas contendo este ingrediente!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     public void openIngredientDetails(View v, IngredientController ingredient){
         Intent intent = new Intent(this, ListIngredientPrices.class);
         intent.putExtra("ingredientId", ingredient.getIdIngredient());
+        intent.putExtra("origin", "listIngredients");
         startActivity(intent);
     }
 
@@ -181,5 +217,10 @@ public class ListIngredients extends Activity {
 
     public void returnToMain(View v){
         finish();
+    }
+
+    public void viewAddIngredient(View v){
+        Intent intent = new Intent (this, AddIngredient.class);
+        startActivity(intent);
     }
 }

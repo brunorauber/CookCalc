@@ -31,4 +31,24 @@
         android:layout_height="wrap_content"
         android:text="Ver Receitas"
         android:onClick="viewListRecipes"/>
+
+    <Button
+        android:id="@+id/buttonConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="viewConfig"
+        android:text="Configurações" />
+
+    <Button
+        android:id="@+id/buttonSync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sync"
+        android:text="Configurações" />
+
+
+    <!--<android.support.design.widget.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
+
 </LinearLayout>

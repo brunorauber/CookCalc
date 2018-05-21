@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.bruno.cookcalc.Controller.IngredientController;
 import com.example.bruno.cookcalc.Controller.IngredientPriceController;
+import com.example.bruno.cookcalc.Controller.IngredientRecipeController;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -91,14 +92,9 @@ public class IngredientModel {
         };
 
         SQLiteDatabase db = banco.getReadableDatabase();
-        /*
-        Cursor cursor = db.rawQuery("SELECT *" + " FROM ingredient  " +
-                " WHERE id_ingredient = " + idIngredient, null);
-        */
         String whereClause = "id_ingredient = ?";
         String[] whereArgs = new String[] {idIngredient.toString()};
         Cursor cursor = db.query("ingredient", fields, whereClause, whereArgs, null, null, null);;
-
 
         List<IngredientPriceController> ingredientPrices = new ArrayList<>();
         IngredientController ingredient = null;
@@ -203,5 +199,35 @@ public class IngredientModel {
 
         db.close();
         return ingredients;
+    }
+
+
+
+    public Long removeIngredient (Integer idIngredient){
+        long result;
+        SQLiteDatabase db = banco.getWritableDatabase();
+        String whereClause = "id_ingredient  = ?";
+        String[] whereArgs = new String[] {idIngredient.toString()};
+        result = db.delete("ingredient", whereClause, whereArgs );
+        db.close();
+        return result;
+    }
+
+    public Boolean isIngredientOnRecipe(Integer idIngredient){
+        SQLiteDatabase db = banco.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ingredient_recipe.id_ingredient as id_ingredient, " +
+                " ingredient_recipe.id_recipe as id_recipe, " +
+                " ingredient_recipe.value as value, " +
+                " ingredient_recipe.quantity as quantity, " +
+                " ingredient_recipe.breadBase as breadBase, " +
+                " ingredient.name as name, " +
+                " ingredient.brand as brand, " +
+                " ingredient.unity as unity" +
+                " FROM ingredient_recipe, ingredient  " +
+                " WHERE ingredient.id_ingredient = " + idIngredient +
+                " AND ingredient_recipe.id_ingredient = ingredient.id_ingredient", null);
+        boolean ret = cursor.moveToFirst();
+        db.close();
+        return ret;
     }
 }

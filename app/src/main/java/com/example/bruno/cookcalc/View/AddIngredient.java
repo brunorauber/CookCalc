@@ -22,6 +22,7 @@ import java.util.List;
 public class AddIngredient extends Activity {
 
     private Integer ingredientId;
+    private String origin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,10 @@ public class AddIngredient extends Activity {
             ingredientId = b.getInt("ingredientId");
             fillEditTextFields(ingredientId);
         }
+        if (b != null && b.containsKey("origin") ) {
+            origin = b.getString("origin");
+        }
+
     }
 
     public void saveIngredient(View v){
@@ -55,14 +60,14 @@ public class AddIngredient extends Activity {
             showErrorMessage();
             return;
         }
-        ingredientNew.setName(text.getText().toString());
+        ingredientNew.setName(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextBrand);
         if( text.getText().toString().length()<1 ){
             showErrorMessage();
             return;
         }
-        ingredientNew.setBrand(text.getText().toString());
+        ingredientNew.setBrand(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextValue);
         if( text.getText().toString().length()<1 ){
@@ -134,14 +139,14 @@ public class AddIngredient extends Activity {
             showErrorMessage();
             return;
         }
-        ingredient.setName(text.getText().toString());
+        ingredient.setName(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextBrand);
         if( text.getText().toString().length()<1 ){
             showErrorMessage();
             return;
         }
-        ingredient.setBrand(text.getText().toString());
+        ingredient.setBrand(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextValue);
         if( text.getText().toString().length()<1 ){
@@ -179,9 +184,10 @@ public class AddIngredient extends Activity {
         IngredientModel model = new IngredientModel(getBaseContext());
         model.insertIngredient(ingredient);
         finish();
-        Intent intent = new Intent (this, ListIngredients.class);
-        startActivity(intent);
-
+        if(origin == "main") {
+            Intent intent = new Intent(this, ListIngredients.class);
+            startActivity(intent);
+        }
     }
 
     public void showErrorMessage(){

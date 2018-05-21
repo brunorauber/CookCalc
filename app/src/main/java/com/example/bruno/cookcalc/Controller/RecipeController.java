@@ -5,11 +5,13 @@ import java.util.List;
 
 public class RecipeController {
     private Integer idRecipe;
+    private Integer minutes;
     private String name;
     private Double portions;
     private Double value;
     private Boolean isBread;
-    private List<IngredientController> ingredients;
+    private Boolean isFavorite;
+    private List<IngredientRecipeController> ingredients;
     private List<RecipePriceController> prices;
 
     public RecipeController(){
@@ -39,11 +41,11 @@ public class RecipeController {
         this.value = value;
     }
 
-    public List<IngredientController> getIngredients() {
+    public List<IngredientRecipeController> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<IngredientController> ingredients) {
+    public void setIngredients(List<IngredientRecipeController> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -71,14 +73,34 @@ public class RecipeController {
         this.prices = prices;
     }
 
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public Integer getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(Integer minutes) {
+        this.minutes = minutes;
+    }
+
     @Override
     public String toString() {
         return "RecipeController{" +
                 "idRecipe=" + idRecipe +
+                ", minutes=" + minutes +
                 ", name='" + name + '\'' +
                 ", portions=" + portions +
                 ", value=" + value +
                 ", isBread=" + isBread +
+                ", isFavorite=" + isFavorite +
+                ", ingredients=" + ingredients +
+                ", prices=" + prices +
                 '}';
     }
 }

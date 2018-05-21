@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Nome da Receita"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textCapWords" />
 
     <EditText
         android:id="@+id/editTextPortions"
@@ -20,11 +20,26 @@
         android:hint="Rendimento/Porções"
         android:inputType="number" />
 
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Tempo gasto na receita (em minutos)"
+        android:inputType="number" />
+
     <CheckBox
         android:id="@+id/checkBoxBread"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Esta receita é um PÃO"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/checkBoxFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Receita Favorita"
         android:textSize="18sp" />
 
     <Button

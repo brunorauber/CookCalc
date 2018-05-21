@@ -41,5 +41,8 @@
         <activity android:name=".View.ListRecipePrices" >
         </activity>
 
+        <activity android:name=".View.ConfigView" >
+        </activity>
+
     </application>
 </manifest>

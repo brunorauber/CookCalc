@@ -36,6 +36,7 @@ public class CreateDataBase extends SQLiteOpenHelper {
                 "\n name TEXT, " +
                 "\n last_update DATE, " +
                 "\n portions INTEGER, " +
+                "\n minutes NUMERIC, " +
                 "\n isBread NUMERIC, " +
                 "\n isFavorite NUMERIC, " +
                 "\n latest_value REAL" +
@@ -67,6 +68,14 @@ public class CreateDataBase extends SQLiteOpenHelper {
                 "\n creation_date DATE, " +
                 "\n value REAL " +
                 "\n )";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE config(" +
+                "\n id_config INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "\n name TEXT, " +
+                "\n value TEXT, " +
+                "\n CONSTRAINT config_name_unique UNIQUE (name) " +
+                " )";
         db.execSQL(sql);
 
     }

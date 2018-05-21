@@ -24,21 +24,31 @@ public class MainActivity extends Activity {
 
     public void viewAddIngredient(View v){
         Intent intent = new Intent (this, AddIngredient.class);
+        intent.putExtra("origin", "main");
         startActivity(intent);
     }
 
     public void viewListIngredient(View v){
         Intent intent = new Intent (this, ListIngredients.class);
+        intent.putExtra("origin", "main");
         startActivity(intent);
     }
     public void viewAddRecipe(View v){
         Intent intent = new Intent (this, AddRecipe.class);
+        intent.putExtra("origin", "main");
         startActivity(intent);
     }
 
     public void viewListRecipes(View v){
         Intent intent = new Intent (this, ListRecipes.class);
+        intent.putExtra("origin", "main");
         startActivity(intent);
+    }
+
+    public void sync(View v){
+
+
+
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.bruno.cookcalc.Controller.IngredientPriceController;
 import com.example.bruno.cookcalc.Controller.RecipeController;
 import com.example.bruno.cookcalc.Controller.RecipePriceController;
+import com.example.bruno.cookcalc.Model.ConfigModel;
 import com.example.bruno.cookcalc.Model.IngredientModel;
 import com.example.bruno.cookcalc.Model.IngredientPriceModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
@@ -46,8 +48,9 @@ public class ListRecipePrices extends Activity {
         recipe = new RecipeModel(getBaseContext()).getRecipeById(recipeId);
         recipePrices =  new RecipeModel(getBaseContext()).listRecipePrices(recipeId);
 
-        header = (TextView) findViewById(R.id.textViewIngredientName);
-        header.setText("Histórico de Preços: " + recipe.getName());
+        header = (TextView) findViewById(R.id.textViewRecipeName);
+        header.setText("Histórico de Custo: " + recipe.getName());
+        header.setText("Histórico de Custo: ");
         list = (ListView) findViewById(R.id.listViewIngredientPrices);
         List<String> prices = new ArrayList<>();
         List<String> dates = new ArrayList<>();
@@ -110,6 +113,47 @@ public class ListRecipePrices extends Activity {
                 new int[] {android.R.id.text1, android.R.id.text2 });
 
         list.setAdapter(adapter);
+
+        TextView text = (TextView) findViewById(R.id.textViewTotalValue);
+        text.setText("Custo: " + recipe.getValue());
+
+        text = (TextView) findViewById(R.id.textViewPortions);
+        text.setText("Porções/Rendimento: " + recipe.getPortions());
+
+        text = (TextView) findViewById(R.id.textViewValuePerPortion);
+        text.setText("Custo unitário: " + recipe.getValue()/recipe.getPortions());
+
+        Double suggested = recipe.getValue() * 1.1;
+
+        ConfigModel configModel = new ConfigModel(getBaseContext());
+        Map<String, String> configs = configModel.listConfigs();
+        if(configs.containsKey("wageType")
+                && configs.containsKey("wageType")){
+            String wageType = configs.get("wageType").toString();
+            Double hourValue = 0.0;
+            if(wageType.equals("month")){
+                hourValue = Double.parseDouble(configs.get("hourValue").toString()) / 220;
+            } else{
+                hourValue = Double.parseDouble(configs.get("hourValue").toString());
+            }
+
+            Double time = ((double) recipe.getMinutes() / 60);
+            Double timeValue = hourValue * time;
+            suggested += timeValue;
+        }
+
+        suggested = (suggested * 1.5);
+        text = (TextView) findViewById(R.id.textViewSuggestedValuePerPortion);
+
+        DecimalFormat numberFormat;
+        suggested = suggested/recipe.getPortions();
+        if(suggested < 1){
+            numberFormat = new DecimalFormat("0.00");
+        } else {
+            numberFormat = new DecimalFormat("#.00");
+        }
+
+        text.setText("Preço de venda sugerido \n(50% de lucro): " + numberFormat.format(suggested));
     }
 
     public void returnToMain(View v){

@@ -114,8 +114,6 @@ public class ListIngredientPrices extends Activity {
         //construção da lista para o gráfico
         Float y = 1.0F;
         for(int i = ingredientPrices.size() -1; i >= 0; i--){
-            System.out.println("i :: " + i);
-            System.out.println("ingredientPrices.size() :: " + ingredientPrices.size());
             IngredientPriceController price = ingredientPrices.get(i);
             DecimalFormat numberFormat;
             if(price.getValue() < 1){

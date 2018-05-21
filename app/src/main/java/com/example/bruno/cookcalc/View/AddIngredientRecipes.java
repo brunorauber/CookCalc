@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.bruno.cookcalc.Controller.IngredientController;
 import com.example.bruno.cookcalc.Controller.IngredientRecipeController;
@@ -18,6 +20,7 @@ import com.example.bruno.cookcalc.Model.IngredientRecipeModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,13 @@ public class AddIngredientRecipes extends Activity {
         setContentView(R.layout.add_ingredient_recipe);
         Bundle b = getIntent().getExtras();
         recipeId = b.getInt("recipeId");
+        //textViewRecipe
+        RecipeModel recipeModel = new RecipeModel(getBaseContext());
+        RecipeController recipe = recipeModel.getRecipeById(recipeId);
+        String title = recipe.getName();
+        TextView header = (TextView) findViewById(R.id.textViewRecipe);
+        header.setText(title);
+
         IngredientModel model = new IngredientModel(getBaseContext());
         List<IngredientController> ingredients = new ArrayList<>();
 
@@ -47,6 +57,9 @@ public class AddIngredientRecipes extends Activity {
         }  else {
             ingredients = model.listIngredients();
         }
+
+        CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
+        cb.setVisibility(View.INVISIBLE);
 
         spinner = (Spinner) findViewById(R.id.spinnerIngredients);
         List<String> ingredientsString = new ArrayList<>();
@@ -67,11 +80,14 @@ public class AddIngredientRecipes extends Activity {
                     unity = "ml";
                     break;
                 case "Unidade":
+                    if(recipe.getBread()){
+                        continue;
+                    }
                     unity = "un";
                     break;
             }
             String qtd = new Boolean(ingredient.getQuantity() % 1 == 0) ?  ingredient.getQuantity().toString().replace(".0", "") : ingredient.getQuantity().toString();
-            String ing = ingredient.getName() + " (" + unity + ")";
+            String ing = ingredient.getName() + " " + ingredient.getBrand() + " (" + unity + ")";
             ingredientsString.add(ing);
         }
 

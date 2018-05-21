@@ -10,6 +10,13 @@
         android:layout_height="314dp" />
 
     <Button
+        android:id="@+id/buttonAddIngredient2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="viewAddIngredient"
+        android:text="Adicionar Ingrediente" />
+
+    <Button
         android:id="@+id/btnReturn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

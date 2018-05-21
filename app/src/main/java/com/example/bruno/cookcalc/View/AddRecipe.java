@@ -16,6 +16,7 @@ import com.example.bruno.cookcalc.R;
 public class AddRecipe extends Activity {
 
     private Integer recipeId;
+    private String origin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,12 @@ public class AddRecipe extends Activity {
             recipeId = b.getInt("recipeId");
             fillEditTextFields(recipeId);
         }
+        if (b != null && b.containsKey("origin") ) {
+            origin = b.getString("origin");
+        }
+
+        CheckBox cb = (CheckBox) findViewById(R.id.checkBoxBread);
+        cb.setVisibility(View.INVISIBLE);
     }
 
     public void saveRecipe(View v){
@@ -48,7 +55,7 @@ public class AddRecipe extends Activity {
             showErrorMessage();
             return;
         }
-        recipeNew.setName(text.getText().toString());
+        recipeNew.setName(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextPortions);
         if( text.getText().toString().length()<1 ){
@@ -57,10 +64,28 @@ public class AddRecipe extends Activity {
         }
         recipeNew.setPortions(Double.parseDouble(text.getText().toString()));
 
+        text = (EditText) findViewById(R.id.editTextTime);
+        if( text.getText().toString().length()<1 ){
+            showErrorMessage();
+            return;
+        }
+        recipeNew.setMinutes(Integer.parseInt(text.getText().toString()));
+
         CheckBox isBread = (CheckBox) findViewById(R.id.checkBoxBread);
         recipeNew.setBread(isBread.isChecked());
+        CheckBox isFavorite = (CheckBox) findViewById(R.id.checkBoxFavorite);
+        recipeNew.setFavorite(isFavorite.isChecked());
 
+        RecipeModel model = new RecipeModel(getBaseContext());
 
+        if (!recipeOld.getName().equals(recipeNew.getName())
+                || !recipeOld.getPortions().equals(recipeNew.getPortions())
+                || !recipeOld.getBread().equals(recipeNew.getBread())
+                || !recipeOld.getFavorite().equals(recipeNew.getFavorite())
+                ){
+            model.updateRecipe(recipeNew);
+        }
+        finish();
     }
 
     public void insertRecipe(View v){
@@ -72,7 +97,7 @@ public class AddRecipe extends Activity {
             showErrorMessage();
             return;
         }
-        recipe.setName(text.getText().toString());
+        recipe.setName(text.getText().toString().trim());
 
         text = (EditText) findViewById(R.id.editTextPortions);
         if( text.getText().toString().length()<1 ){
@@ -81,15 +106,26 @@ public class AddRecipe extends Activity {
         }
         recipe.setPortions(Double.parseDouble(text.getText().toString()));
 
+        text = (EditText) findViewById(R.id.editTextTime);
+        if( text.getText().toString().length()<1 ){
+            showErrorMessage();
+            return;
+        }
+        recipe.setMinutes(Integer.parseInt(text.getText().toString()));
+
         CheckBox isBread = (CheckBox) findViewById(R.id.checkBoxBread);
         recipe.setBread(isBread.isChecked());
+
+        CheckBox isFavorite = (CheckBox) findViewById(R.id.checkBoxFavorite);
+        recipe.setFavorite(isFavorite.isChecked());
 
         RecipeModel model = new RecipeModel(getBaseContext());
         model.insertRecipe(recipe);
         finish();
-
-        Intent intent = new Intent (this, ListRecipes.class);
-        startActivity(intent);
+        if(origin == "main") {
+            Intent intent = new Intent(this, ListRecipes.class);
+            startActivity(intent);
+        }
     }
 
     public void showErrorMessage(){
@@ -123,10 +159,15 @@ public class AddRecipe extends Activity {
         text = (EditText) findViewById(R.id.editTextPortions);
         text.setText(recipe.getPortions().toString());
 
+        text = (EditText) findViewById(R.id.editTextTime);
+        text.setText(recipe.getMinutes().toString());
+
+
+
         CheckBox isBread = (CheckBox) findViewById(R.id.checkBoxBread);
         isBread.setChecked(recipe.getBread());
-
-
+        CheckBox isFavorite= (CheckBox) findViewById(R.id.checkBoxFavorite);
+        isFavorite.setChecked(recipe.getFavorite());
     }
 
     public void returnToMain(View v){

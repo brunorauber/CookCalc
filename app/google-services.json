@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "47342646639",
+    "firebase_url": "https://cookcalc-1c0a9.firebaseio.com",
+    "project_id": "cookcalc-1c0a9",
+    "storage_bucket": "cookcalc-1c0a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47342646639:android:d02226ff0f9588de",
+        "android_client_info": {
+          "package_name": "com.example.bruno.cookcalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47342646639-6tcm63v7l2hfv2bbtp9ohjqqd13s4f3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bruno.cookcalc",
+            "certificate_hash": "48edb1095a15c1c70484d38b71cd645fc6aac5a1"
+          }
+        },
+        {
+          "client_id": "47342646639-mt5t3grpltqr5q2juq850l7b3b8st3sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw9zakH-EP8dWTiGJYSPKvXjT4apGEPlk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47342646639-mt5t3grpltqr5q2juq850l7b3b8st3sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,7 +5,35 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textViewIngredientName"
+        android:id="@+id/textViewTotalValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewPortions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewValuePerPortion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewSuggestedValuePerPortion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewRecipeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -14,7 +42,7 @@
     <ListView
         android:id="@+id/listViewIngredientPrices"
         android:layout_width="match_parent"
-        android:layout_height="379dp" />
+        android:layout_height="185dp" />
 
     <Button
         android:id="@+id/btnReturn"

@@ -4,89 +4,77 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Nome"
-        android:inputType="textPersonName|textCapWords" />
-
-    <EditText
-        android:id="@+id/editTextBrand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Marca"
-        android:inputType="textPersonName|textCapWords" />
-
-    <EditText
-        android:id="@+id/editTextValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="Valor" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Unidade/Embalagem"
+        android:text="Estado:"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinnerEstados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Estado" />
+
+    <EditText
+        android:id="@+id/editTextCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Cidade"
+        android:inputType="textPersonName|textCapWords" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tipo de salário"
         android:textSize="18sp" />
 
     <RadioGroup
-        android:id="@+id/radioGroupUnity"
+        android:id="@+id/radioGroupWage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:orientation="vertical">
 
         <RadioButton
-            android:id="@+id/radioButtonKg"
+            android:id="@+id/radioButtonMonth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kilograma (kg)" />
+            android:text="Salário mensal" />
 
         <RadioButton
-            android:id="@+id/radioButtonG"
+            android:id="@+id/radioButtonHour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grama (g)" />
-
-        <RadioButton
-            android:id="@+id/radioButtonL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Litro (l)" />
-
-        <RadioButton
-            android:id="@+id/radioButtonMl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mililitro (ml)" />
-
-        <RadioButton
-            android:id="@+id/radioButtonUn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Unidade" />
+            android:text="Salário por  hora" />
 
     </RadioGroup>
 
     <EditText
-        android:id="@+id/editTextQuantity"
+        android:id="@+id/editTextHourValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="number"
-        android:hint="Quantidade por embalagem" />
+        android:hint="Valor em R$"
+        android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="salvar"
-        android:onClick="saveIngredient"/>
+        android:onClick="saveConfigs"
+        android:text="salvar" />
 
     <Button
         android:id="@+id/btnReturn"

@@ -32,7 +32,9 @@ public class RecipeModel {
         values = new ContentValues();
         values.put("name", recipe.getName());
         values.put("portions", recipe.getPortions());
+        values.put("minutes", recipe.getMinutes());
         values.put("isBread", recipe.getBread());
+        values.put("isFavorite", recipe.getFavorite());
         result = db.insert("recipe", null, values);
         db.close();
         return result;
@@ -62,7 +64,9 @@ public class RecipeModel {
         values = new ContentValues();
         values.put("name", recipe.getName());
         values.put("portions", recipe.getPortions());
+        values.put("minutes", recipe.getMinutes());
         values.put("isBread", recipe.getBread());
+        values.put("isFavorite", recipe.getFavorite());
 
         String whereClause = "id_recipe = ?";
         String[] whereArgs = new String[] {recipe.getIdRecipe().toString()};
@@ -76,10 +80,11 @@ public class RecipeModel {
         String[] fields = {
                 "id_recipe",
                 "name",
-                "latest_value"
+                "latest_value",
+                "isFavorite"
         };
         SQLiteDatabase db = banco.getReadableDatabase();
-        Cursor cursor = db.query("recipe", fields, null, null, null, null, "name asc");
+        Cursor cursor = db.query("recipe", fields, null, null, null, null, "isFavorite desc, name asc");
 
         List<RecipeController> recipes = new ArrayList<>();
         RecipeController recipe = null;
@@ -89,6 +94,7 @@ public class RecipeModel {
                 recipe.setIdRecipe(cursor.getInt(cursor.getColumnIndex("id_recipe")));
                 recipe.setName(cursor.getString(cursor.getColumnIndex("name")));
                 recipe.setValue(cursor.getDouble(cursor.getColumnIndex("latest_value")));
+                recipe.setFavorite( cursor.getInt(cursor.getColumnIndex("isFavorite")) == 1);
                 recipes.add(recipe);
             } while (cursor.moveToNext());
         }
@@ -119,14 +125,12 @@ public class RecipeModel {
                 recipePrice.setidRecipe(cursor.getInt(cursor.getColumnIndex("id_recipe")));
                 recipePrice.setValue(cursor.getDouble(cursor.getColumnIndex("value")));
 
+
                 String target  = cursor.getString(cursor.getColumnIndexOrThrow("creation_date"));
                 DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
                 try{
                     Date data =  df.parse(target);
                     recipePrice.setCreationDate(data);
-
-                    System.out.println("QWERQERYQERYQERY");
-                    System.out.println("recipePrice :: " + recipePrice);
                 }catch (ParseException e){
                     e.printStackTrace();
                 }
@@ -144,9 +148,9 @@ public class RecipeModel {
         return recipePricesRet;
     }
 
-    public void updateRecipeValue(Integer id) {
+    public void updateRecipeValue(Integer id_recipe) {
         String sql = "SELECT SUM(value) new_value, id_recipe FROM ingredient_recipe " +
-                " WHERE id_recipe = " + id;
+                " WHERE id_recipe = " + id_recipe;
         SQLiteDatabase db = banco.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         Double newValue = 0.0;
@@ -157,10 +161,10 @@ public class RecipeModel {
         ContentValues values= new ContentValues();
         values.put("latest_value", newValue);
         values.put("last_update", new java.util.Date().toString());
-        db.update("recipe", values,  " id_recipe = " + id, null);
+        db.update("recipe", values,  " id_recipe = " + id_recipe, null);
 
         values = new ContentValues();
-        values.put("id_recipe", id);
+        values.put("id_recipe", id_recipe);
         values.put("value", newValue);
         values.put("creation_date", new java.util.Date().toString());
         long result = db.insert("recipe_price", null, values);
@@ -173,22 +177,24 @@ public class RecipeModel {
                 "id_recipe",
                 "name",
                 "isBread",
+                "isFavorite",
                 "portions",
-                "value"
+                "minutes",
+                "latest_value"
         };
         SQLiteDatabase db = banco.getReadableDatabase();
-        String sql = "SELECT * FROM recipe WHERE id_recipe = ?";
-
-        String[] whereArgs = new String[] {id.toString()};
-
         RecipeController recipe = null;
-        Cursor cursor = db.rawQuery(sql, whereArgs);
+        String whereClause = "id_recipe = ?";
+        String[] whereArgs = new String[] {id.toString()};
+        Cursor cursor = db.query("recipe", fields, whereClause, whereArgs, null, null, null);;
 
         if (cursor.moveToFirst()) {
             recipe = new RecipeController();
             recipe.setIdRecipe(cursor.getInt(cursor.getColumnIndex("id_recipe")));
+            recipe.setMinutes(cursor.getInt(cursor.getColumnIndex("minutes")));
             recipe.setName(cursor.getString(cursor.getColumnIndex("name")));
             recipe.setBread( cursor.getInt(cursor.getColumnIndex("isBread")) == 1);
+            recipe.setFavorite( cursor.getInt(cursor.getColumnIndex("isFavorite")) == 1);
             recipe.setPortions(cursor.getDouble(cursor.getColumnIndex("portions")));
             recipe.setValue(cursor.getDouble(cursor.getColumnIndex("latest_value")));
 
@@ -228,5 +234,19 @@ public class RecipeModel {
         }
         db.close();
         return recipes;
+    }
+
+    public Long removeRecipe(Integer idRecipe){
+        long result;
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        String whereClause = "id_recipe = ? ";
+        String[] whereArgs = new String[] {idRecipe.toString()};
+        result = db.delete("ingredient_recipe", whereClause, whereArgs );
+        result = db.delete("recipe", whereClause, whereArgs );
+
+        db.close();
+        return result;
+
     }
 }
