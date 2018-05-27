@@ -106,6 +106,22 @@ public class ConfigModel {
         Cursor cursor = db.query("config", fields, whereClause, whereArgs, null, null, null);
         return cursor.moveToFirst();
     }
+    public String  getConfigValue(String name){
+        String[] fields = {
+                "id_config",
+                "name",
+                "value"
+        };
+        SQLiteDatabase db = banco.getReadableDatabase();
+        String whereClause = "name = ?";
+        String[] whereArgs = new String[] {name};
+        Cursor cursor = db.query("config", fields, whereClause, whereArgs, null, null, null);
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex("value"));
+        } else{
+            return null;
+        }
+    }
 
     public Map<String, String> listConfigs(){
         String[] fields = {

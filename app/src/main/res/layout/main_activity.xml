@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="sync"
-        android:text="Configurações" />
+        android:text="Sincronização" />
 
 
     <!--<android.support.design.widget.NavigationView

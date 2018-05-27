@@ -55,7 +55,7 @@ public class AddIngredientRecipes extends Activity {
             EditText text = (EditText) findViewById(R.id.editTextValue);
             text.setText(irController.getQuantity().toString());
         }  else {
-            ingredients = model.listIngredients();
+            ingredients = model.listIngredientsNotInRecipe(recipeId);
         }
 
         CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
@@ -139,7 +139,7 @@ public class AddIngredientRecipes extends Activity {
         spinner = (Spinner) findViewById(R.id.spinnerIngredients);
 
         IngredientModel ingredientModel = new IngredientModel(getBaseContext());
-        List<IngredientController> ingredients = ingredientModel .listIngredients();
+        List<IngredientController> ingredients = ingredientModel.listIngredientsNotInRecipe(recipeId);
         Integer position = spinner.getSelectedItemPosition();
         IngredientController selectedIngredient = ingredients.get(position);
         ingredientRecipe.setIdIngredient(selectedIngredient.getIdIngredient());

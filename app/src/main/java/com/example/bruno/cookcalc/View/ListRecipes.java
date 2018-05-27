@@ -109,7 +109,8 @@ public class ListRecipes extends Activity {
 
             String rec = recipe.getName() + " - " + valor;
             if(recipe.getFavorite()){
-                rec = "(*) " + rec;
+//                rec = "✪ " + rec;
+                rec = "★ " + rec;
             }
             recipesString.add(rec);
         }

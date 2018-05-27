@@ -34,7 +34,7 @@
     <ListView
         android:id="@+id/listViewIngredientsRecipe"
         android:layout_width="match_parent"
-        android:layout_height="186dp"></ListView>
+        android:layout_height="251dp"></ListView>
 
     <Button
         android:id="@+id/buttonEditRecipe"

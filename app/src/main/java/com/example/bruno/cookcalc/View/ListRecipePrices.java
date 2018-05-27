@@ -1,9 +1,12 @@
 package com.example.bruno.cookcalc.View;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +41,7 @@ public class ListRecipePrices extends Activity {
     private Integer recipeId;
     private RecipeController recipe;
     private List<RecipePriceController> recipePrices;
+    private Double cost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,20 +115,30 @@ public class ListRecipePrices extends Activity {
                 android.R.layout.simple_list_item_2,
                 new String[] {"line1", "line2" },
                 new int[] {android.R.id.text1, android.R.id.text2 });
-
         list.setAdapter(adapter);
+        DecimalFormat numberFormat;
 
         TextView text = (TextView) findViewById(R.id.textViewTotalValue);
-        text.setText("Custo: " + recipe.getValue());
+        if(recipe.getValue() < 1){
+            numberFormat = new DecimalFormat("0.00");
+        } else {
+            numberFormat = new DecimalFormat("#.00");
+        }
+        text.setText("Custo: " + numberFormat.format(recipe.getValue()));
 
         text = (TextView) findViewById(R.id.textViewPortions);
         text.setText("Porções/Rendimento: " + recipe.getPortions());
 
         text = (TextView) findViewById(R.id.textViewValuePerPortion);
-        text.setText("Custo unitário: " + recipe.getValue()/recipe.getPortions());
+        Double valuePerPortion = recipe.getValue()/recipe.getPortions();
+        if(valuePerPortion < 1){
+            numberFormat = new DecimalFormat("0.00");
+        } else {
+            numberFormat = new DecimalFormat("#.00");
+        }
+        text.setText("Custo unitário: " + numberFormat.format(valuePerPortion));
 
-        Double suggested = recipe.getValue() * 1.1;
-
+        cost = recipe.getValue() * 1.1;
         ConfigModel configModel = new ConfigModel(getBaseContext());
         Map<String, String> configs = configModel.listConfigs();
         if(configs.containsKey("wageType")
@@ -136,16 +150,16 @@ public class ListRecipePrices extends Activity {
             } else{
                 hourValue = Double.parseDouble(configs.get("hourValue").toString());
             }
-
             Double time = ((double) recipe.getMinutes() / 60);
             Double timeValue = hourValue * time;
-            suggested += timeValue;
+            cost += timeValue;
         }
 
-        suggested = (suggested * 1.5);
+//        cost = suggested;
+        Double suggested = (cost * 1.5);
         text = (TextView) findViewById(R.id.textViewSuggestedValuePerPortion);
 
-        DecimalFormat numberFormat;
+//        DecimalFormat numberFormat;
         suggested = suggested/recipe.getPortions();
         if(suggested < 1){
             numberFormat = new DecimalFormat("0.00");
@@ -154,6 +168,86 @@ public class ListRecipePrices extends Activity {
         }
 
         text.setText("Preço de venda sugerido \n(50% de lucro): " + numberFormat.format(suggested));
+    }
+
+    public void recalculationDialog(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Quanto de lucro (%) você quer aplicar?");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        builder.setView(input);
+
+        builder.setPositiveButton("Recalcular", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Double qtd = Double.parseDouble(input.getText().toString());
+                if(qtd <= 0){
+                    showErrorMessage("Valor inválido!");
+                    return;
+                }
+                recalculateProfit(qtd);
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //Toast.makeText(getBaseContext(), "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alerta = builder.create();
+        alerta.show();
+    }
+
+    public void recalculateProfit (Double percentage){
+//        percentage = percentage ;
+        TextView text = (TextView) findViewById(R.id.textViewSuggestedValuePerPortion);
+        Double value = cost + (cost * percentage / 100);
+        DecimalFormat numberFormat;
+        DecimalFormat numberFormat2;
+        value = value/recipe.getPortions();
+        if(value < 1){
+            numberFormat = new DecimalFormat("0.00");
+        } else {
+            numberFormat = new DecimalFormat("#.00");
+        }
+        if(percentage < 1){
+            numberFormat2 = new DecimalFormat("0.00");
+        } else {
+            if (percentage.intValue() == percentage){
+                numberFormat2 = new DecimalFormat("#");
+            } else {
+                numberFormat2 = new DecimalFormat("#.00");
+            }
+        }
+
+
+        text.setText("Preço de venda sugerido \n("+ numberFormat2.format(percentage) +"% de lucro): " + numberFormat.format(value));
+    }
+
+    public void showErrorMessage(String msg){
+        //Cria o gerador do AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+        builder.setTitle("Aviso");
+        //define a mensagem
+        builder.setMessage(msg);
+
+        //define um botão como positivo
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //Toast.makeText(getBaseContext(), "positivo=" + arg1, Toast.LENGTH_SHORT).show();
+            }
+        });
+        //define um botão como negativo.
+        /*builder.setNegativeButton("Negativo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                Toast.makeText(getBaseContext(), "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+            }
+        });*/
+        //cria o AlertDialog
+        AlertDialog alerta = builder.create();
+        //Exibe
+        alerta.show();
     }
 
     public void returnToMain(View v){

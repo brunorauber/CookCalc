@@ -120,9 +120,43 @@ public class IngredientModel {
         }
 
         return ingredient;
-
     }
 
+    public List<IngredientController> listIngredientsNotInRecipe(Integer recipeId){
+        SQLiteDatabase db = banco.getReadableDatabase();
+        List<IngredientController> ingredients = new ArrayList<>();
+        IngredientController ingredient = null;
+        String query = "SELECT id_ingredient, name, brand, latest_value, unity, quantity, last_update" +
+                " FROM ingredient " +
+                " WHERE id_ingredient NOT IN (SELECT id_ingredient FROM ingredient_recipe WHERE id_recipe = ?)" +
+                " ORDER BY name, brand";
+        String [] args = {recipeId.toString()};
+        Cursor cursor = db.rawQuery(query,args);
+        if (cursor.moveToFirst()) {
+            do {
+                ingredient = new IngredientController();
+                ingredient.setIdIngredient(cursor.getInt(cursor.getColumnIndex("id_ingredient")));
+                ingredient.setName(cursor.getString(cursor.getColumnIndex("name")));
+                ingredient.setBrand(cursor.getString(cursor.getColumnIndex("brand")));
+                ingredient.setLatestValue(cursor.getDouble(cursor.getColumnIndex("latest_value")));
+                ingredient.setUnity(cursor.getString(cursor.getColumnIndex("unity")));
+                ingredient.setQuantity(cursor.getDouble(cursor.getColumnIndex("quantity")));
+
+                String target  = cursor.getString(cursor.getColumnIndexOrThrow("last_update"));
+                DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+                try{
+                    Date data =  df.parse(target);
+                    ingredient.setLastUpdate(data);
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
+
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
+
+        return ingredients;
+    }
     public List<IngredientController> listIngredients(){
         String[] fields = {
             "id_ingredient",
@@ -160,8 +194,6 @@ public class IngredientModel {
                 ingredients.add(ingredient);
             } while (cursor.moveToNext());
         }
-
-
         String[] fields2 = {
                 "id_price"
                 ,"id_ingredient"
@@ -195,8 +227,6 @@ public class IngredientModel {
                 }
             } while (cursor2.moveToNext());
         }
-
-
         db.close();
         return ingredients;
     }

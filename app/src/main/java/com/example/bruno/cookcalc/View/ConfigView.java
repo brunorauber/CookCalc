@@ -32,9 +32,20 @@ public class ConfigView extends Activity {
         ConfigModel configModel = new ConfigModel(getBaseContext());
 
         spinner = (Spinner) findViewById(R.id.spinnerEstados);
+        List<String> statesString = statesList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, statesString);
+        spinner.setAdapter(adapter);
+
+        configs = configModel.listConfigs();
+        if(configs.size() > 0){
+            fillFields();
+        }
+    }
+
+    public List<String> statesList(){
         List<String> statesString = new ArrayList<>();
 
-        statesString.add(" ");
+        statesString.add("Selecione");
         statesString.add("AC");
         statesString.add("AL");
         statesString.add("AP");
@@ -62,13 +73,7 @@ public class ConfigView extends Activity {
         statesString.add("SP");
         statesString.add("SE");
         statesString.add("TO");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, statesString);
-        spinner.setAdapter(adapter);
-
-        configs = configModel.listConfigs();
-        if(configs.size() > 0){
-            fillFields();
-        }
+        return statesString;
     }
 
     public void saveConfigs(View v){
@@ -86,22 +91,22 @@ public class ConfigView extends Activity {
 
         text = (EditText) findViewById(R.id.editTextCity);
         if( text.getText().toString().length() >= 1 ){
-            String city = String.valueOf(text.getText());
-            if(configModel.configExists("city")){
-                configModel.updateConfig("city", city);
-            } else {
-                configModel.insertConfig("city", city);
-            }
+        }
+        String city = String.valueOf(text.getText());
+        if(configModel.configExists("city")){
+            configModel.updateConfig("city", city);
+        } else {
+            configModel.insertConfig("city", city);
         }
 
         text = (EditText) findViewById(R.id.editTextEmail);
         if( text.getText().toString().length() >= 1 ){
-            String email = String.valueOf(text.getText());
-            if(configModel.configExists("email")){
-                configModel.updateConfig("email", email);
-            } else {
-                configModel.insertConfig("email", email);
-            }
+        }
+        String email = String.valueOf(text.getText());
+        if(configModel.configExists("email")){
+            configModel.updateConfig("email", email.toLowerCase());
+        } else {
+            configModel.insertConfig("email", email.toLowerCase());
         }
 
 
@@ -125,12 +130,12 @@ public class ConfigView extends Activity {
 
             text = (EditText) findViewById(R.id.editTextHourValue);
             if( text.getText().toString().length() >= 1 ){
-                Double hourValue = Double.parseDouble(String.valueOf(text.getText()));
-                if(configModel.configExists("hourValue")){
-                    configModel.updateConfig("hourValue", hourValue.toString());
-                } else {
-                    configModel.insertConfig("hourValue", hourValue.toString());
-                }
+            }
+            Double hourValue = Double.parseDouble(String.valueOf(text.getText()));
+            if(configModel.configExists("hourValue")){
+                configModel.updateConfig("hourValue", hourValue.toString());
+            } else {
+                configModel.insertConfig("hourValue", hourValue.toString());
             }
         }
         finish();
@@ -167,9 +172,9 @@ public class ConfigView extends Activity {
         }
 
         if(configs.containsKey("email")){
-            String city = configs.get("email").toString();
+            String email = configs.get("email").toString();
             text = (EditText) findViewById(R.id.editTextEmail);
-            text.setText(city);
+            text.setText(email);
         }
 
         if(configs.containsKey("state")){
