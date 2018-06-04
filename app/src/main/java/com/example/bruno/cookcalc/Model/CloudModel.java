@@ -26,22 +26,16 @@ public class CloudModel {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null){
-                    data = dataSnapshot;
-                }
-
-
-
-                getSync();
+//                if(dataSnapshot != null){
+//                    data = dataSnapshot;
+//                }
+//                getSync();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // ...
             }
         });
-
-
     }
 
     public void writeNewUser(String email, String state, String city, List<RecipeController> recipes, List<IngredientController> ingredients) {
@@ -56,17 +50,6 @@ public class CloudModel {
 
     public void getSync(String state, String city){
         System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
         System.out.println(state);
         System.out.println(city.toUpperCase());
         if(data != null) {
@@ -74,18 +57,6 @@ public class CloudModel {
         }
     }
     public void getSync(){
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
-        System.out.println("SEFÇNWLENOFFIOw");
         if(data != null) {
             System.out.println(data.child("users"));
         }

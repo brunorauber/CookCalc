@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -27,7 +28,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListIngredientRecipes extends Activity {
+public class ListIngredientRecipes extends AppCompatActivity {
 
     private ListView list;
     private Integer recipeId;
@@ -160,7 +161,7 @@ public class ListIngredientRecipes extends Activity {
 
     public void showMultiplyMessage(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Por quanto você quer multiplicar está receita?");
+        builder.setMessage("Por quanto você quer multiplicar esta receita?");
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);

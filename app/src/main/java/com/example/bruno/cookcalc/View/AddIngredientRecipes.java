@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.example.bruno.cookcalc.Controller.IngredientController;
 import com.example.bruno.cookcalc.Controller.IngredientRecipeController;
 import com.example.bruno.cookcalc.Controller.RecipeController;
+import com.example.bruno.cookcalc.Model.CloudModel;
+import com.example.bruno.cookcalc.Model.ConfigModel;
 import com.example.bruno.cookcalc.Model.IngredientModel;
 import com.example.bruno.cookcalc.Model.IngredientRecipeModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
@@ -24,7 +27,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddIngredientRecipes extends Activity {
+public class AddIngredientRecipes extends AppCompatActivity {
 
     private Spinner spinner;
     private Integer recipeId;
@@ -101,6 +104,54 @@ public class AddIngredientRecipes extends Activity {
         } else{
             updateIngredientRecipe(v);
         }
+        try {
+            sync();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sync(){
+        ConfigModel configModel = new ConfigModel(getBaseContext());
+        String email = null;
+        if (configModel.configExists("email")){
+            email = configModel.getConfigValue("email");
+        }
+
+        if(email == null || email.isEmpty()){
+            return;
+        }
+        String state = null;
+        if (configModel.configExists("state")){
+            state = configModel.getConfigValue("state");
+        }
+
+        if(state == null || state.isEmpty()){
+            return;
+        }
+        String city = null;
+        if (configModel.configExists("city")){
+            city = configModel.getConfigValue("city");
+        }
+
+        if(city == null || city.isEmpty()){
+            return;
+        }
+
+        IngredientModel ingredientModel= new IngredientModel(getBaseContext());
+        List<IngredientController> ingredients = ingredientModel.listIngredients();
+
+        RecipeModel recipeModel = new RecipeModel(getBaseContext());
+        List<RecipeController> recipes = recipeModel.listRecipes();
+
+        IngredientRecipeModel ingredientRecipeModel = new IngredientRecipeModel(getBaseContext());
+        for(RecipeController recipe : recipes){
+            List<IngredientRecipeController> ingredientRecipes = ingredientRecipeModel.listIngredientsFromRecipe(recipe.getIdRecipe());
+            recipe.setIngredients(ingredientRecipes);
+        }
+
+        CloudModel cloudModel = new CloudModel();
+        cloudModel.writeNewUser(email, state, city, recipes, ingredients);
     }
 
     public void updateIngredientRecipe(View v){

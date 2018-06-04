@@ -5,6 +5,25 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textViewMean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="(Calculando valor médio do produto)"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textViewMax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textViewMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/textViewIngredientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +33,7 @@
     <ListView
         android:id="@+id/listViewIngredientPrices"
         android:layout_width="match_parent"
-        android:layout_height="321dp" />
+        android:layout_height="249dp" />
 
     <Button
         android:id="@+id/btnEditIngredient"

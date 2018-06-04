@@ -188,6 +188,5 @@ public class IngredientRecipeModel {
 
         db.close();
         return result;
-
     }
 }

@@ -81,7 +81,9 @@ public class RecipeModel {
                 "id_recipe",
                 "name",
                 "latest_value",
-                "isFavorite"
+                "isFavorite",
+                "portions",
+                "minutes"
         };
         SQLiteDatabase db = banco.getReadableDatabase();
         Cursor cursor = db.query("recipe", fields, null, null, null, null, "isFavorite desc, name asc");
@@ -92,8 +94,10 @@ public class RecipeModel {
             do {
                 recipe = new RecipeController();
                 recipe.setIdRecipe(cursor.getInt(cursor.getColumnIndex("id_recipe")));
+                recipe.setMinutes(cursor.getInt(cursor.getColumnIndex("minutes")));
                 recipe.setName(cursor.getString(cursor.getColumnIndex("name")));
                 recipe.setValue(cursor.getDouble(cursor.getColumnIndex("latest_value")));
+                recipe.setPortions(cursor.getDouble(cursor.getColumnIndex("portions")));
                 recipe.setFavorite( cursor.getInt(cursor.getColumnIndex("isFavorite")) == 1);
                 recipes.add(recipe);
             } while (cursor.moveToNext());

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class ListRecipePrices extends Activity {
+public class ListRecipePrices extends AppCompatActivity {
 
     private ListView list;
     private TextView header;

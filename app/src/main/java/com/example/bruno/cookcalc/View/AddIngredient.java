@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -12,14 +13,17 @@ import android.widget.RadioGroup;
 import com.example.bruno.cookcalc.Controller.IngredientController;
 import com.example.bruno.cookcalc.Controller.IngredientRecipeController;
 import com.example.bruno.cookcalc.Controller.RecipeController;
+import com.example.bruno.cookcalc.Model.CloudModel;
+import com.example.bruno.cookcalc.Model.ConfigModel;
 import com.example.bruno.cookcalc.Model.IngredientModel;
 import com.example.bruno.cookcalc.Model.IngredientRecipeModel;
 import com.example.bruno.cookcalc.Model.RecipeModel;
 import com.example.bruno.cookcalc.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-public class AddIngredient extends Activity {
+public class AddIngredient extends AppCompatActivity {
 
     private Integer ingredientId;
     private String origin;
@@ -34,10 +38,13 @@ public class AddIngredient extends Activity {
             ingredientId = b.getInt("ingredientId");
             fillEditTextFields(ingredientId);
         }
+
+
         if (b != null && b.containsKey("origin") ) {
             origin = b.getString("origin");
+        } else {
+            origin = "";
         }
-
     }
 
     public void saveIngredient(View v){
@@ -46,8 +53,55 @@ public class AddIngredient extends Activity {
         } else{
             updateIngredient(v);
         }
+        try {
+            sync();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
+    public void sync(){
+        ConfigModel configModel = new ConfigModel(getBaseContext());
+        String email = null;
+        if (configModel.configExists("email")){
+            email = configModel.getConfigValue("email");
+        }
+
+        if(email == null || email.isEmpty()){
+            return;
+        }
+        String state = null;
+        if (configModel.configExists("state")){
+            state = configModel.getConfigValue("state");
+        }
+
+        if(state == null || state.isEmpty()){
+            return;
+        }
+        String city = null;
+        if (configModel.configExists("city")){
+            city = configModel.getConfigValue("city");
+        }
+
+        if(city == null || city.isEmpty()){
+            return;
+        }
+
+        IngredientModel ingredientModel= new IngredientModel(getBaseContext());
+        List<IngredientController> ingredients = ingredientModel.listIngredients();
+
+        RecipeModel recipeModel = new RecipeModel(getBaseContext());
+        List<RecipeController> recipes = recipeModel.listRecipes();
+
+        IngredientRecipeModel ingredientRecipeModel = new IngredientRecipeModel(getBaseContext());
+        for(RecipeController recipe : recipes){
+            List<IngredientRecipeController> ingredientRecipes = ingredientRecipeModel.listIngredientsFromRecipe(recipe.getIdRecipe());
+            recipe.setIngredients(ingredientRecipes);
+        }
+
+        CloudModel cloudModel = new CloudModel();
+        cloudModel.writeNewUser(email, state, city, recipes, ingredients);
+    }
 
     public void updateIngredient(View v){
         IngredientController ingredientOld = new IngredientModel(getBaseContext()).selectIngredient(ingredientId);
@@ -153,7 +207,16 @@ public class AddIngredient extends Activity {
             showErrorMessage();
             return;
         }
-        ingredient.setLatestValue(Double.parseDouble(text.getText().toString()));
+
+        Double value = Double.parseDouble(text.getText().toString());
+        DecimalFormat numberFormat;
+        if(value < 1){
+            numberFormat = new DecimalFormat("0.00");
+        } else {
+            numberFormat = new DecimalFormat("#.00");
+        }
+
+        ingredient.setLatestValue(Double.parseDouble(numberFormat.format(value).replace(",", ".")));
 
         RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroupUnity);
         int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
@@ -184,7 +247,7 @@ public class AddIngredient extends Activity {
         IngredientModel model = new IngredientModel(getBaseContext());
         model.insertIngredient(ingredient);
         finish();
-        if(origin == "main") {
+        if(origin.equalsIgnoreCase("main") ) {
             Intent intent = new Intent(this, ListIngredients.class);
             startActivity(intent);
         }

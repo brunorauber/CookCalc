@@ -3,6 +3,7 @@ package com.example.bruno.cookcalc.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListRecipes extends Activity {
+public class ListRecipes extends AppCompatActivity {
 
     private ListView list;
     List<RecipeController> recipes;
@@ -97,7 +98,6 @@ public class ListRecipes extends Activity {
         List<String> recipesString = new ArrayList<>();
 
         for (RecipeController recipe : recipes){
-
             Double value = recipe.getValue();
             DecimalFormat numberFormat;
             if(value < 1){
@@ -124,7 +124,7 @@ public class ListRecipes extends Activity {
                 openIngredients(view, recipes.get(position) );
             }
         });
-
+        Toast.makeText(getBaseContext(), "Para detalhes, clique no nome da receita", Toast.LENGTH_LONG).show();
         super.onResume();
     }
 
